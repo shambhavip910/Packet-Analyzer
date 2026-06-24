@@ -1,93 +1,84 @@
-# Packet Analyzer
+# DPI Engine – Deep Packet Inspection System
 
-A C++ network packet analysis tool that reads PCAP files and extracts detailed information from Ethernet, IPv4, TCP, and UDP packets. The project provides packet-level visibility into network traffic by parsing protocol headers and displaying packet metadata in a human-readable format.
+A C++ based Deep Packet Inspection (DPI) engine that analyzes network traffic from PCAP files, classifies applications using TLS SNI extraction, applies filtering rules, and generates traffic reports.
+
+## Features
+
+- PCAP packet parsing
+- TCP/UDP protocol analysis
+- TLS SNI extraction for HTTPS traffic classification
+- Flow tracking using Five-Tuple identification
+- Application detection (YouTube, Facebook, Google, etc.)
+- Rule-based blocking (IP, Domain, Application)
+- Traffic statistics and reporting
+- Multi-threaded packet processing
+
+## Tech Stack
+
+- C++17
+- Multi-threading (`std::thread`)
+- Networking Protocols (Ethernet, IPv4, TCP, UDP)
+- TLS Inspection
+- PCAP File Processing
 
 ## Architecture
 
 ```text
-PCAP File
-    │
-    ▼
-PCAP Reader
-    │
-    ▼
+PCAP Input
+    ↓
 Packet Parser
-    │
-    ▼
-Ethernet Frame Analysis
-    │
-    ▼
-IPv4 Packet Analysis
-    │
-    ▼
-TCP / UDP Header Analysis
-    │
-    ▼
-Packet Summary Output
+    ↓
+Flow Tracker
+    ↓
+SNI Extraction
+    ↓
+Traffic Classification
+    ↓
+Rule Engine
+    ↓
+Filtered PCAP + Report
 ```
 
-## Features
+## Key Concepts Implemented
 
-* Read and process PCAP files
-* Parse Ethernet frames
-* Analyze IPv4 packet headers
-* Inspect TCP packet information
-* Inspect UDP packet information
-* Extract source and destination IP addresses
-* Extract source and destination ports
-* Display TCP flags and sequence information
-* View packet payload previews
-* Generate packet-level traffic summaries
-
-## Technologies Used
-
-* C++
-* TCP/IP Networking
-* Ethernet Protocol Analysis
-* Packet Parsing
-* PCAP Processing
-* CMake
-
-## Project Structure
-
-```text
-include/
-├── packet_parser.h
-├── pcap_reader.h
-└── types.h
-
-src/
-├── main.cpp
-├── packet_parser.cpp
-└── pcap_reader.cpp
-```
+- Deep Packet Inspection (DPI)
+- Five-Tuple Flow Tracking
+- TLS Client Hello Analysis
+- SNI-Based Application Detection
+- Producer-Consumer Architecture
+- Thread-Safe Queues
+- Load Balancing & Fast Path Processing
 
 ## Build
 
 ```bash
-mkdir build
-cd build
-cmake ..
-cmake --build . --config Release
+g++ -std=c++17 -pthread -O2 -I include -o dpi_engine src/*.cpp
 ```
 
 ## Run
 
 ```bash
-packet_analyzer input.pcap
+./dpi_engine input.pcap output.pcap
 ```
 
-Example:
+Block specific applications:
 
 ```bash
-packet_analyzer capture.pcap
+./dpi_engine input.pcap output.pcap --block-app YouTube
 ```
+
+## Output
+
+- Filtered PCAP file
+- Traffic statistics report
+- Application breakdown
+- Detected domains and applications
 
 ## Learning Outcomes
 
-* Network packet structure
-* Ethernet frame parsing
-* IPv4 header analysis
-* TCP and UDP protocol inspection
-* PCAP file processing
-* Network traffic analysis fundamentals
+- Computer Networking
+- Packet Analysis
+- Protocol Parsing
+- TLS/SNI Inspection
+- Concurrent Programming
+- High-Performance System Design
